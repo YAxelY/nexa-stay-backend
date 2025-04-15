@@ -1,0 +1,41 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class User {
+    +Long id
+    +String nom
+    +String email
+    +String motDePasse
+    +String role
+}
+
+class Room {
+    +Long id
+    +String numero
+    +String type
+    +int capacite
+    +BigDecimal prix
+    +String statut
+}
+
+class Reservation {
+    +Long id
+    +Long roomId
+    +Long userId
+    +LocalDate dateDebut
+    +LocalDate dateFin
+    +String statut
+}
+
+class Payment {
+    +Long id
+    +Long reservationId
+    +BigDecimal montant
+    +String mode
+    +String statut
+}
+
+User "1" -- "0..*" Reservation : makes
+Room "1" -- "0..*" Reservation : contains
+Reservation "1" -- "0..1" Payment : has
+@enduml

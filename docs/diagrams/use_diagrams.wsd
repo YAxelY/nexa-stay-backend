@@ -1,0 +1,21 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Client
+actor Hotelier
+
+rectangle "Cas d'utilisation" {
+  Client --> (Register)
+  Client --> (Login)
+  Client --> (ViewRooms)
+  Client --> (MakeReservation)
+  Client --> (LeaveReview)
+
+  Hotelier --> (Login)
+  Hotelier --> (ManageUsers)
+  Hotelier --> (ManageRooms)
+  Hotelier --> (ManageReservations)
+  Hotelier --> (ViewStatistics)
+}
+@enduml

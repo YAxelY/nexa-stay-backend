@@ -1,0 +1,16 @@
+@startuml
+actor client
+participant frontEnd
+participant reservationService
+participant reviewService
+participant notificationService
+
+client -> frontEnd : submitReview(reviewData)
+frontEnd -> reservationService : verifyStay(userId, reservationId)
+reservationService --> frontEnd : stayVerified
+frontEnd -> reviewService : saveReview(reviewData)
+reviewService --> frontEnd : reviewSaved
+reviewService -> notificationService : sendReviewNotification(hotelierContact, reviewSummary)
+notificationService --> reviewService : notificationSent
+frontEnd --> client : displayReviewThanks()
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+actor client
+participant frontEnd
+participant reservationService
+participant roomService
+participant paymentService
+participant notificationService
+
+client -> frontEnd : requestReservation(reservationData)
+frontEnd -> reservationService : createReservation(reservationData)
+reservationService -> roomService : checkAvailability(roomId, dates)
+roomService --> reservationService : return availabilityStatus
+
+alt available
+    reservationService -> reservationService : saveReservation()
+    reservationService -> paymentService : processPayment(paymentInfo)
+    paymentService --> reservationService : return paymentConfirmation
+    reservationService -> notificationService : sendConfirmation(userContact, reservationDetails)
+    notificationService --> reservationService : return notificationStatus
+    reservationService --> frontEnd : return reservationConfirmed
+    frontEnd --> client : displayConfirmation()
+else not available
+    reservationService --> frontEnd : return reservationFailed(reason)
+    frontEnd --> client : displayError(reason)
+end
+@enduml

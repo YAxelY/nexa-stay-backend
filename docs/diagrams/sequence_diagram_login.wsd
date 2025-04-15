@@ -1,0 +1,14 @@
+@startuml
+actor client
+participant frontEnd
+participant authService
+participant userService
+
+client -> frontEnd : login(credentials)
+frontEnd -> authService : authenticate(credentials)
+authService -> userService : findUserByEmail(email)
+userService --> authService : return userDetails
+authService -> authService : validatePassword()
+authService -> frontEnd : return jwtToken
+frontEnd --> client : displayDashboard()
+@enduml
