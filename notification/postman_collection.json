@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "NexaStay Notification API",
+    "_postman_id": "a1234567-89ab-cdef-0123-456789abcdef",
+    "description": "Test collection for Notification microservice",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Send Email",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "to", "value": "recipient@example.com", "type": "text" },
+            { "key": "subject", "value": "Test Subject", "type": "text" },
+            { "key": "message", "value": "This is a test email", "type": "text" }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/notifications/send-email",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "notifications", "send-email"]
+        }
+      }
+    },
+    {
+      "name": "Get All Notifications",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/notifications",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "notifications"]
+        }
+      }
+    },
+    {
+      "name": "Search Notifications By Email",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/notifications/search?email=recipient@example.com",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "notifications", "search"],
+          "query": [
+            { "key": "email", "value": "recipient@example.com" }
+          ]
+        }
+      }
+    }
+  ]
+}
