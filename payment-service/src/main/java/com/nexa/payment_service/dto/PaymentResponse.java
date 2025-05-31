@@ -1,3 +1,4 @@
+// dto/PaymentResponse.java
 package com.nexa.payment_service.dto;
 
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentResponse {
-    private String clientSecret;   // for Stripe
-    private String approvalLink;   // for PayPal
+    private String clientSecret;
+     private String paymentIntentId; 
+    private String approvalLink;
 }

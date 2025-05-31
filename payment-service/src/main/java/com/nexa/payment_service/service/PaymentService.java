@@ -1,3 +1,4 @@
+// service/PaymentService.java
 package com.nexa.payment_service.service;
 
 import com.nexa.payment_service.dto.PaymentRequest;
@@ -5,13 +6,11 @@ import com.nexa.payment_service.entity.Payment;
 import com.nexa.payment_service.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
-
     private final PaymentRepository paymentRepository;
 
     public Payment savePayment(PaymentRequest request, String transactionId, String status) {

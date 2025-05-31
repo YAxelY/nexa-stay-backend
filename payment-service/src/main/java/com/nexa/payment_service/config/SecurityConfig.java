@@ -1,3 +1,4 @@
+// config/SecurityConfig.java
 package com.nexa.payment_service.config;
 
 import org.springframework.context.annotation.Bean;

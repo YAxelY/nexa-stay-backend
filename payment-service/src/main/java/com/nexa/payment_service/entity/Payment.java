@@ -1,3 +1,4 @@
+// entity/Payment.java
 package com.nexa.payment_service.entity;
 
 import jakarta.persistence.*;
@@ -14,12 +15,10 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Double amount;
     private String currency;
-    private String paymentMethod; // STRIPE, PAYPAL
+    private String paymentMethod;
     private String status;
     private String transactionId;
-
     private LocalDateTime createdAt;
 }
