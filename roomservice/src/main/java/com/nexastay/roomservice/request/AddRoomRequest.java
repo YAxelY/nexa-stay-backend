@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 import lombok.Data;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 @Data
 public class AddRoomRequest {
     private UUID id;
 
-    private String number;
+    @NotNull(message = "Room name is required")
+    private String name;
     private String description;
     private String imageUrl;
     private BigDecimal price;

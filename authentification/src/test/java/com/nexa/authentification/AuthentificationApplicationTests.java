@@ -1,4 +1,4 @@
-package com.nexa.authentification;
+package com.nexastay.authentification;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

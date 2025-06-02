@@ -11,14 +11,23 @@ import com.nexastay.roomservice.request.UpdateRoomRequest;
 
 public interface IRoomService {
     Room addRoom(AddRoomRequest room);
+
     Room getRoomById(UUID id);
+
     Room updateRoomById(UpdateRoomRequest room, UUID id);
-    Room getRoombyNumber(String number);
+
+    Room getRoomByName(String name);
+
     void deleteRoomById(UUID id);
+
     List<Room> getAllRoom();
+
     List<Room> getRoomByCapacity(Integer capacity);
+
     List<Room> getRoomByType(String type);
+
     List<Room> getRoomByStatus(String status);
+
     List<Room> getRoomByPrice(BigDecimal price);
 
     RoomDto convertRoomToDto(Room room);

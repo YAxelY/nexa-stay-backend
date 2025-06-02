@@ -17,37 +17,44 @@ import org.hibernate.annotations.GenericGenerator;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="rooms")
+@Table(name = "rooms", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "name")
+})
 public class Room {
-    
+
     @Id
     @GeneratedValue
-    @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    private String number;
+    @Column(unique = true)
+    private String name;
+
     private String description;
     private String imageUrl;
     private BigDecimal price;
     private Integer capacity;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 50)
     @JsonProperty
     private RoomType type;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 50)
     @JsonProperty
     private RoomStatus status = RoomStatus.AVAILABLE;
 
-//    @ManyToOne
-//    @JoinColumn(name = "hotel_id", nullable = false)
-//    private Hotel hotel;
+    // @ManyToOne
+    // @JoinColumn(name = "hotel_id", nullable = false)
+    // private Hotel hotel;
 
     // Constructors, getters, and setters
 
-    public Room(String number, Integer capacity, String description, String imageUrl, BigDecimal price, RoomStatus status, RoomType type){
-        this.number = number;
+    public Room(String name, Integer capacity, String description, String imageUrl, BigDecimal price,
+            RoomStatus status, RoomType type) {
+        this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
         this.price = price;

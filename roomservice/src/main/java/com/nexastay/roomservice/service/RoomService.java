@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class RoomService implements IRoomService{
+public class RoomService implements IRoomService {
     @Autowired
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
@@ -30,19 +30,19 @@ public class RoomService implements IRoomService{
     @Override
     public Room getRoomById(UUID id) {
         return roomRepository.findById(id)
-            .orElseThrow(()-> new ResourceNotFoundException("Room not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: " + id));
     }
 
     @Override
     public Room updateRoomById(UpdateRoomRequest room, UUID id) {
         return roomRepository.findById(id)
                 .map(existingRoom -> updateExistingRoom(existingRoom, room))
-                .map(roomRepository :: save)
-                .orElseThrow(()-> new ResourceNotFoundException("Room not found!"));
+                .map(roomRepository::save)
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found!"));
     }
 
-    private Room updateExistingRoom(Room existingRoom, UpdateRoomRequest request){
-        existingRoom.setNumber(request.getNumber());
+    private Room updateExistingRoom(Room existingRoom, UpdateRoomRequest request) {
+        existingRoom.setName(request.getName());
         existingRoom.setDescription(request.getDescription());
         existingRoom.setCapacity(request.getCapacity());
         existingRoom.setPrice(request.getPrice());
@@ -54,16 +54,12 @@ public class RoomService implements IRoomService{
     }
 
     @Override
-    public Room getRoombyNumber(String number) {
-        return roomRepository.findByNumber(number);
-    }
-
-    @Override
     public void deleteRoomById(UUID id) {
         roomRepository.findById(id)
-            .ifPresentOrElse(roomRepository::delete,
-            ()->{throw new ResourceNotFoundException("Room not found !");
-        });
+                .ifPresentOrElse(roomRepository::delete,
+                        () -> {
+                            throw new ResourceNotFoundException("Room not found!");
+                        });
     }
 
     @Override
@@ -93,24 +89,29 @@ public class RoomService implements IRoomService{
 
     @Override
     public Room addRoom(AddRoomRequest room) {
-        return roomRepository.save(createRoom(room));
-    }
+        Room newRoom = new Room(
+                room.getName(),
+                room.getCapacity(),
+                room.getDescription(),
+                room.getImageUrl(),
+                room.getPrice(),
+                RoomStatus.valueOf(room.getStatus().toUpperCase()),
+                RoomType.valueOf(room.getType().toUpperCase()));
 
-    //Before adding a  room, we need to create it
-    private Room createRoom(AddRoomRequest request){
-        return new Room(
-            request.getNumber(),
-            request.getCapacity(),
-            request.getDescription(),
-            request.getImageUrl(),
-            request.getPrice(),
-                RoomStatus.valueOf(request.getStatus().toUpperCase()),
-                RoomType.valueOf(request.getType().toUpperCase())
-        );
+        return roomRepository.save(newRoom);
     }
 
     @Override
-    public RoomDto convertRoomToDto(Room room){
+    public Room getRoomByName(String name) {
+        Room room = roomRepository.findByName(name);
+        if (room == null) {
+            throw new ResourceNotFoundException("Room not found with name: " + name);
+        }
+        return room;
+    }
+
+    @Override
+    public RoomDto convertRoomToDto(Room room) {
         RoomDto roomsDto = new RoomDto();
         roomsDto = modelMapper.map(room, RoomDto.class);
         return roomsDto;

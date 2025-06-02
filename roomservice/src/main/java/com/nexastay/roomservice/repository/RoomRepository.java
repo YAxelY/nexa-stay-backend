@@ -8,14 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.nexastay.roomservice.model.Room;
 
+public interface RoomRepository extends JpaRepository<Room, UUID> {
 
-public interface RoomRepository extends JpaRepository<Room, UUID>{
-
-    Room findByNumber(String number);
+    Room findByName(String name);
 
     List<Room> findByCapacity(Integer capacity);
 
-	List<Room> findByType(String type);
+    List<Room> findByType(String type);
 
     List<Room> findByStatus(String status);
 
