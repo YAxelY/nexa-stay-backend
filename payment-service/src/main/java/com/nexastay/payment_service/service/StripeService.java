@@ -1,9 +1,9 @@
 
 // service/StripeService.java
-package com.nexa.payment_service.service;
+package com.nexastay.payment_service.service;
 
-import com.nexa.payment_service.dto.PaymentRequest;
-import com.nexa.payment_service.exception.PaymentException;
+import com.nexastay.payment_service.dto.PaymentRequest;
+import com.nexastay.payment_service.exception.PaymentException;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;

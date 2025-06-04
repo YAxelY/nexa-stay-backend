@@ -1,5 +1,5 @@
 // entity/Payment.java
-package com.nexa.payment_service.entity;
+package com.nexastay.payment_service.model;
 
 import jakarta.persistence.*;
 import lombok.*;

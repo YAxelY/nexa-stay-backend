@@ -1,7 +1,7 @@
-package com.nexa.payment_service.service;
+package com.nexastay.payment_service.service;
 
-import com.nexa.payment_service.dto.PaymentRequest;
-import com.nexa.payment_service.exception.PaymentException;
+import com.nexastay.payment_service.dto.PaymentRequest;
+import com.nexastay.payment_service.exception.PaymentException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;

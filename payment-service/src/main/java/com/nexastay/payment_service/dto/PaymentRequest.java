@@ -1,5 +1,5 @@
 // dto/PaymentRequest.java
-package com.nexa.payment_service.dto;
+package com.nexastay.payment_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

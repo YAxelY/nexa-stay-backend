@@ -1,7 +1,7 @@
 // repository/PaymentRepository.java
-package com.nexa.payment_service.repository;
+package com.nexastay.payment_service.repository;
 
-import com.nexa.payment_service.entity.Payment;
+import com.nexastay.payment_service.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long> {

@@ -1,9 +1,9 @@
 // service/PaymentService.java
-package com.nexa.payment_service.service;
+package com.nexastay.payment_service.service;
 
-import com.nexa.payment_service.dto.PaymentRequest;
-import com.nexa.payment_service.entity.Payment;
-import com.nexa.payment_service.repository.PaymentRepository;
+import com.nexastay.payment_service.dto.PaymentRequest;
+import com.nexastay.payment_service.entity.Payment;
+import com.nexastay.payment_service.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;

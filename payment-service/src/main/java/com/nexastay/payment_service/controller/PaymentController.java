@@ -1,9 +1,9 @@
 // controller/PaymentController.java
-package com.nexa.payment_service.controller;
+package com.nexastay.payment_service.controller;
 
-import com.nexa.payment_service.dto.PaymentRequest;
-import com.nexa.payment_service.dto.PaymentResponse;
-import com.nexa.payment_service.service.*;
+import com.nexastay.payment_service.dto.PaymentRequest;
+import com.nexastay.payment_service.dto.PaymentResponse;
+import com.nexastay.payment_service.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
