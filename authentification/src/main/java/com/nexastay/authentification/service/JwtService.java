@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import com.nexastay.authentification.model.User;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,7 +25,15 @@ public class JwtService {
     private long expiration;
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> claims = new HashMap<>();
+        if (userDetails instanceof User) {
+            User user = (User) userDetails;
+            claims.put("role", user.getRole().name());
+            claims.put("userId", user.getId());
+            claims.put("email", user.getEmail());
+            claims.put("name", user.getNom());
+        }
+        return generateToken(claims, userDetails);
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {

@@ -19,19 +19,22 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(nullable = false)
     private Long userId;
-
 
     @Column(nullable = false)
     private Long roomId;
 
     @Column(nullable = false)
-    @Min(1) @Max(5)
+    @Min(1)
+    @Max(5)
     private int rating;
 
     private String comment;
+
+    @Column(nullable = false)
+    @Lob
+    private String photo;
 
     @Column(nullable = false)
     private LocalDate reviewDate;

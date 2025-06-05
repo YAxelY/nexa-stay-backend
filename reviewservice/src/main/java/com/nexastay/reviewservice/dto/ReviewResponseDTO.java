@@ -14,5 +14,6 @@ public class ReviewResponseDTO {
     private Long roomId;
     private int rating;
     private String comment;
+    private String photo;
     private LocalDate reviewDate;
 }

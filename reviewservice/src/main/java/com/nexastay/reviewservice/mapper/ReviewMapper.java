@@ -20,6 +20,7 @@ public class ReviewMapper {
                 .roomId(dto.getRoomId())
                 .rating(dto.getRating())
                 .comment(dto.getComment())
+                .photo(dto.getPhoto())
                 .reviewDate(LocalDate.now())
                 .build();
     }
@@ -31,6 +32,7 @@ public class ReviewMapper {
                 .roomId(review.getRoomId())
                 .rating(review.getRating())
                 .comment(review.getComment())
+                .photo(review.getPhoto())
                 .reviewDate(review.getReviewDate())
                 .build();
     }

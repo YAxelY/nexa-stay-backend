@@ -16,9 +16,13 @@ public class ReviewRequestDTO {
     @NotNull
     private Long roomId;
 
-    @Min(1) @Max(5)
+    @Min(1)
+    @Max(5)
     private int rating;
 
     @Size(max = 500)
     private String comment;
+
+    @NotNull
+    private String photo;
 }
