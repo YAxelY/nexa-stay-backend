@@ -31,6 +31,9 @@ public class SecurityConfig {
                         .pathMatchers("/api/auth/**").permitAll()
                         .pathMatchers("/api/reviews/latest").permitAll()
                         .pathMatchers("/api/reviews/room/**").permitAll()
+                        .pathMatchers("/static/**").permitAll()
+                        .pathMatchers("/api/rooms/status/**").permitAll()
+                        .pathMatchers("/api/rooms/availability/**").permitAll()
                         .pathMatchers("/api/reviews").authenticated()
                         .pathMatchers("/**").authenticated())
                 .build();

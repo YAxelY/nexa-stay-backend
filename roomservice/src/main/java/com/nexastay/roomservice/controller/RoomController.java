@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/rooms")
+@RequestMapping("/api/rooms")
 public class RoomController {
     @Autowired
     private final RoomService roomService;
@@ -47,14 +47,14 @@ public class RoomController {
     @Autowired
     private FileStorageService fileStorageService;
 
-    @GetMapping("/all")
-    public ResponseEntity<ApiResponse> getAllRoom() {
+    @GetMapping
+    public ResponseEntity<ApiResponse> getAllRooms() {
         List<Room> rooms = roomService.getAllRoom();
         List<RoomDto> roomDtos = roomMapper.convertRoomToListDto(rooms);
         return ResponseEntity.ok(new ApiResponse("Success", roomDtos));
     }
 
-    @GetMapping("/room/{id}/room")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> findRoomById(@PathVariable UUID id) {
         try {
             Room room = roomService.getRoomById(id);
@@ -63,10 +63,9 @@ public class RoomController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("Room not found!", e.getMessage()));
         }
-
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<ApiResponse> addRoom(
             @RequestParam("name") String name,
             @RequestParam("type") String type,
@@ -88,7 +87,7 @@ public class RoomController {
             // Handle image upload if present
             if (image != null && !image.isEmpty()) {
                 String filename = fileStorageService.storeRoomImage(image);
-                room.setImageUrl("/static/rooms/" + filename);
+                room.setImageUrl(fileStorageService.getImageUrl(filename));
             } else if (imageUrl != null && !imageUrl.isEmpty()) {
                 room.setImageUrl(imageUrl);
             }
@@ -112,8 +111,8 @@ public class RoomController {
         }
     }
 
-    @PutMapping("/room/{id}/update")
-    public ResponseEntity<ApiResponse> updateResponseEntity(@RequestBody UpdateRoomRequest room,
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse> updateRoom(@RequestBody UpdateRoomRequest room,
             @PathVariable UUID id) {
         try {
             Room updatedRoom = roomService.updateRoomById(room, id);
@@ -124,7 +123,7 @@ public class RoomController {
         }
     }
 
-    @GetMapping("/room/name/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<ApiResponse> findRoomByName(@PathVariable String name) {
         try {
             Room room = roomService.getRoomByName(name);
@@ -139,7 +138,7 @@ public class RoomController {
         }
     }
 
-    @GetMapping("/room/capacity/{capacity}")
+    @GetMapping("/capacity/{capacity}")
     public ResponseEntity<ApiResponse> findRoomByCapacity(@PathVariable Integer capacity) {
         try {
             List<Room> rooms = roomService.getRoomByCapacity(capacity);
@@ -154,7 +153,7 @@ public class RoomController {
         }
     }
 
-    @GetMapping("/room/price/{price}")
+    @GetMapping("/price/{price}")
     public ResponseEntity<ApiResponse> findRoomByPrice(@PathVariable BigDecimal price) {
         try {
             List<Room> rooms = roomService.getRoomByPrice(price);
@@ -169,7 +168,7 @@ public class RoomController {
         }
     }
 
-    @GetMapping("/room/type/{type}")
+    @GetMapping("/type/{type}")
     public ResponseEntity<ApiResponse> findRoomByType(@PathVariable String type) {
         try {
             List<Room> rooms = roomService.getRoomByType(type);
@@ -184,7 +183,7 @@ public class RoomController {
         }
     }
 
-    @DeleteMapping("/room/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteRoomById(@PathVariable UUID id) {
         try {
             roomService.deleteRoomById(id);

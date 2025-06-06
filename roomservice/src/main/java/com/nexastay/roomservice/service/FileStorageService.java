@@ -19,6 +19,9 @@ public class FileStorageService {
     @Value("${upload.path:uploads/rooms/}")
     private String uploadPath;
 
+    @Value("${upload.base-url}")
+    private String baseUrl;
+
     private final Path root;
     private final Path roomsPath;
 
@@ -52,37 +55,33 @@ public class FileStorageService {
     }
 
     public String storeRoomImage(MultipartFile file) {
-        if (file == null || file.isEmpty()) {
-            throw new IllegalArgumentException("Failed to store empty or null file.");
-        }
-
         try {
+            if (file.isEmpty()) {
+                throw new IllegalArgumentException("Failed to store empty file");
+            }
+
+            // Generate a unique filename
             String originalFilename = file.getOriginalFilename();
-            if (originalFilename == null || originalFilename.isEmpty()) {
-                throw new IllegalArgumentException("Original filename is empty");
-            }
+            String extension = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf(".")) : ".jpg";
+            String filename = UUID.randomUUID().toString() + extension;
 
-            // Generate unique filename
-            String filename = UUID.randomUUID().toString() + "_" + originalFilename.replaceAll("[^a-zA-Z0-9.-]", "_");
+            // Save the file
             Path destinationFile = roomsPath.resolve(filename);
+            logger.info("Storing file at: {}", destinationFile);
 
-            logger.info("Storing file: {} to path: {}", filename, destinationFile);
-
-            // Copy file to destination
             Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
-
-            // Verify file was created
-            if (!Files.exists(destinationFile)) {
-                throw new IOException("Failed to verify file creation: " + destinationFile);
-            }
-
             logger.info("Successfully stored file: {}", filename);
+
             return filename;
         } catch (IOException e) {
             String errorMsg = "Failed to store file: " + e.getMessage();
             logger.error(errorMsg, e);
             throw new RuntimeException(errorMsg, e);
         }
+    }
+
+    public String getImageUrl(String filename) {
+        return baseUrl + filename;
     }
 
     public boolean deleteRoomImage(String filename) {
