@@ -33,7 +33,33 @@ public class ReviewService {
         try {
             // Get the authenticated user ID from the security context
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null) {
+                log.error("No authentication found in SecurityContext");
+                throw new AccessDeniedException("Authentication required");
+            }
+
             String authenticatedUserId = authentication.getName();
+            if (authenticatedUserId == null) {
+                log.error("No user ID found in authentication");
+                throw new AccessDeniedException("User ID not found in authentication");
+            }
+
+            log.info("Authentication context: principal={}, name={}, authorities={}, details={}",
+                    authentication.getPrincipal(),
+                    authenticatedUserId,
+                    authentication.getAuthorities(),
+                    authentication.getDetails());
+
+            // Validate request data
+            if (reviewRequestDTO.getUserId() == null) {
+                log.error("Review request missing userId");
+                throw new IllegalArgumentException("User ID is required");
+            }
+
+            if (reviewRequestDTO.getRoomId() == null) {
+                log.error("Review request missing roomId");
+                throw new IllegalArgumentException("Room ID is required");
+            }
 
             // Validate that the user ID in the request matches the authenticated user
             if (!reviewRequestDTO.getUserId().toString().equals(authenticatedUserId)) {
@@ -52,13 +78,20 @@ public class ReviewService {
             Review review = reviewMapper.toEntity(reviewRequestDTO);
             review.setReviewDate(LocalDate.now());
 
-            log.debug("Saving review: {}", review);
+            log.debug("Saving review with auth context - userId: {}, authenticatedId: {}, review: {}",
+                    reviewRequestDTO.getUserId(), authenticatedUserId, review);
             Review savedReview = reviewRepository.save(review);
-            log.info("Successfully saved review with ID: {}", savedReview.getId());
+            log.info("Successfully saved review with ID: {} for authenticated user: {}",
+                    savedReview.getId(), authenticatedUserId);
 
             return reviewMapper.toDto(savedReview);
         } catch (Exception e) {
-            log.error("Error creating review: {}", e.getMessage(), e);
+            log.error("Error creating review: {} - Auth context: user={}",
+                    e.getMessage(),
+                    SecurityContextHolder.getContext().getAuthentication() != null
+                            ? SecurityContextHolder.getContext().getAuthentication().getName()
+                            : "no auth",
+                    e);
             throw e;
         }
     }

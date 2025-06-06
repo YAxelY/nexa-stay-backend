@@ -43,9 +43,9 @@ public class ReviewController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
 
-            ReviewResponseDTO createdReview = reviewService.createReview(reviewDTO);
+        ReviewResponseDTO createdReview = reviewService.createReview(reviewDTO);
             log.info("Successfully created review with id: {}", createdReview.getId());
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdReview);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdReview);
         } catch (Exception e) {
             log.error("Error creating review: {}", e.getMessage(), e);
             throw e;
